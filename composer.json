@@ -1,0 +1,27 @@
+{
+    "name": "grzegorz-pierzakowski/hii",
+    "description": "Gii extension - complex model generator for Yii 2 Framework",
+    "keywords": ["yii2", "gii", "model"],
+    "homepage": "https://github.com/grzegorz-pierzakowski/hii",
+    "type": "yii2-extension",
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "Grzegorz Pierzakowski",
+            "email": "gpierzakowski@gmail.com",
+            "homepage": "http://helgusoft.pl"
+        }
+    ],
+    "require": {
+        "dmstr/yii2-bootstrap": "*",
+        "yiisoft/yii2-gii": "~2.0.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "grzegorzpierzakowski\\hii\\": ""
+        }
+    },
+    "extra": {
+        "bootstrap": "grzegorz-pierzakowski\\hii\\Bootstrap"
+    }
+}
