@@ -79,14 +79,14 @@ class Generator extends schmunk42\giiant\model\Generator
     {
 
         #Yii::trace("Generating class name for '{$tableName}'...", __METHOD__);
-        if (isset($this->newClassNames[$tableName])) {
-            #Yii::trace("Using '{$this->newClassNames[$tableName]}' for '{$tableName}' from newClassNames.", __METHOD__);
-            return $this->newClassNames[$tableName];
+        if (isset($this->classNames2[$tableName])) {
+            #Yii::trace("Using '{$this->classNames2[$tableName]}' for '{$tableName}' from classNames2.", __METHOD__);
+            return $this->classNames2[$tableName];
         }
 
         if (isset($this->tableNameMap[$tableName])) {
             Yii::trace("Converted '{$tableName}' from tableNameMap.", __METHOD__);
-            return $this->newClassNames[$tableName] = $this->tableNameMap[$tableName];
+            return $this->classNames2[$tableName] = $this->tableNameMap[$tableName];
         }
 
         if (($pos = strrpos($tableName, '.')) !== false) {
@@ -119,7 +119,7 @@ class Generator extends schmunk42\giiant\model\Generator
 
         $returnName = Inflector::id2camel($className, '_');
         Yii::trace("Converted '{$tableName}' to '{$returnName}'.", __METHOD__);
-        return $this->newClassNames[$tableName] = $returnName;
+        return $this->classNames2[$tableName] = $returnName;
     }
 
     protected function generateRelations()
