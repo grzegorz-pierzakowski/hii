@@ -72,4 +72,12 @@ abstract class <?= $className ?> extends <?= '\\' . ltrim($generator->baseClass,
         <?= $relation[0] . "\n" ?>
     }
 <?php endforeach; ?>
+    
+    <?php foreach ($tableSchema->columns as $column): if ($column->name == 'name') :?>
+    
+    public static function byName($name)
+    {
+        return static::findOne(['name' => $name]);
+    }
+    <?php endif; endforeach;?>
 }
