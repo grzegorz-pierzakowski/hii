@@ -14,28 +14,12 @@ use yii\helpers\Inflector;
 use Yii;
 
 
-class Generator extends \yii\gii\generators\model\Generator
+class Generator extends schmunk42\giiant\model\Generator
 {
-    /**
-     * @var bool whether to overwrite (extended) model classes, will be always created, if file does not exist
-     */
-    public $generateModelClass = false;
-
-    /**
-     * @var null string for the table prefix, which is ignored in generated class name
-     */
-    public $tablePrefix = null;
-
-    /**
-     * @var array key-value pairs for mapping a table-name to class-name, eg. 'prefix_FOObar' => 'FooBar'
-     */
-    public $tableNameMap = [];
-
     /**
      * @var array key-value pairs for mapping reltion patterns eg. 'column_name' => 'relationName'
      */
     public $customMap = [];
-    protected $newClassNames;
 
     /**
      * @inheritdoc
@@ -43,64 +27,6 @@ class Generator extends \yii\gii\generators\model\Generator
     public function getName()
     {
         return 'Hii Model';
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getDescription()
-    {
-        return 'This generator generates an ActiveRecord class and base class for the specified database table.';
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function rules()
-    {
-        return array_merge(
-            parent::rules(),
-            [
-                [['generateModelClass'], 'boolean'],
-                [['tablePrefix'], 'safe'],
-            ]
-        );
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function attributeLabels()
-    {
-        return array_merge(
-            parent::attributeLabels(),
-            [
-                'generateModelClass' => 'Generate Model Class',
-            ]
-        );
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function hints()
-    {
-        return array_merge(
-            parent::hints(),
-            [
-                'generateModelClass' => 'This indicates whether the generator should generate the model class, this should usually be done only once. The model-base class is always generated.',
-                'tablePrefix'        => 'Custom table prefix, eg <code>app_</code>.<br/><b>Note!</b> overrides <code>yii\db\Connection</code> prefix!',
-
-            ]
-        );
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function requiredTemplates()
-    {
-        return ['model.php', 'model-extended.php'];
     }
 
     /**
