@@ -1,6 +1,9 @@
 hii
 ===========
 
+still at development stage
+
+
 Extended models for Gii, the code generator of Yii2 Framework
 
 
