@@ -24,4 +24,5 @@ use Yii;
  */
 class <?= $className ?> extends \<?= $generator->ns ?>\base\<?= $className . "\n" ?>
 {
+
 }

@@ -22,6 +22,10 @@ class Generator extends schmunk42\giiant\model\Generator
     public $customMap = [];
 
     /**
+     * @var array key-value pairs for mapping tableNames to modelNames
+     */
+    public $tableModelMap = [];
+    /**
      * @inheritdoc
      */
     public function getName()
@@ -77,51 +81,9 @@ class Generator extends schmunk42\giiant\model\Generator
      */
     protected function generateClassName($tableName)
     {
-
-        #Yii::trace("Generating class name for '{$tableName}'...", __METHOD__);
-        if (isset($this->classNames2[$tableName])) {
-            #Yii::trace("Using '{$this->classNames2[$tableName]}' for '{$tableName}' from classNames2.", __METHOD__);
-            return $this->classNames2[$tableName];
-        }
-
-        if (isset($this->tableNameMap[$tableName])) {
-            Yii::trace("Converted '{$tableName}' from tableNameMap.", __METHOD__);
-            return $this->classNames2[$tableName] = $this->tableNameMap[$tableName];
-        }
-
-        if (($pos = strrpos($tableName, '.')) !== false) {
-            $tableName = substr($tableName, $pos + 1);
-        }
-
-        $db         = $this->getDbConnection();
-        $patterns   = [];
-        $patterns[] = "/^{$this->tablePrefix}(.*?)$/";
-        $patterns[] = "/^(.*?){$this->tablePrefix}$/";
-        $patterns[] = "/^{$db->tablePrefix}(.*?)$/";
-        $patterns[] = "/^(.*?){$db->tablePrefix}$/";
-
-        if (strpos($this->tableName, '*') !== false) {
-            $pattern = $this->tableName;
-            if (($pos = strrpos($pattern, '.')) !== false) {
-                $pattern = substr($pattern, $pos + 1);
-            }
-            $patterns[] = '/^' . str_replace('*', '(\w+)', $pattern) . '$/';
-        }
-
-        $className = $tableName;
-        foreach ($patterns as $pattern) {
-            if (preg_match($pattern, $tableName, $matches)) {
-                $className = $matches[1];
-                Yii::trace("Mapping '{$tableName}' to '{$className}' from pattern '{$pattern}'.", __METHOD__);
-                break;
-            }
-        }
-
-        $returnName = Inflector::id2camel($className, '_');
-        Yii::trace("Converted '{$tableName}' to '{$returnName}'.", __METHOD__);
-        return $this->classNames2[$tableName] = $returnName;
+        return isset($this->tableModelMap[$tableName]) ? $this->takeNameFromArray($tableName) : $this->calculateClassName($tableName);
     }
-
+    
     protected function generateRelations()
     {
         $relations = parent::generateRelations();
@@ -142,4 +104,23 @@ class Generator extends schmunk42\giiant\model\Generator
         return $relations;
     }
 
+    private function takeNameFromArray($tablename)
+    {
+            Yii::trace("Converted '{$tableName}' from config->tableModelMap.", __METHOD__);
+            return $this->tableModelMap[$tableName];
+    }
+    
+    private function calculateClassName($tableName)
+    {
+        $className = id2camel($this->removePrefixes($tableName), '_');
+        Yii::trace("Converted '{$tableName}' to '{$className}'.", __METHOD__);
+        return $className;
+    }
+    
+    private function removePrefixes($tableName)
+    {
+        foreach ([$this->tablePrefix, $this->getDbConnection()->tablePrefix] as $prefix)
+            $tableName = preg_replace($prefix, '', $tableName);
+        return $tableName;
+    }
 }

@@ -49,13 +49,8 @@ $config['modules']['gii'] = [
     'generators' => [
         'hii-model' => [
             'class'     => 'grzegorzpierzakowski\hii\model\Generator',
-            //setting for out templates
-            'templates' => [
-                'mymodel' =>
-                    '@app/giiTemplates/model/default',
-            ],
-            'customMap' => [
-            ]
+            'tableModelMap' => [],
+            'customMap' => []
         ]
     ],
 ];
