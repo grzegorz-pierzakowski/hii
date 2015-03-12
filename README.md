@@ -49,7 +49,9 @@ $config['modules']['gii'] = [
     'generators' => [
         'hii-model' => [
             'class'     => 'grzegorzpierzakowski\hii\model\Generator',
+            // put your custom table => Model map here
             'tableModelMap' => [],
+            // put your custom column_name => RelationName map here
             'customMap' => []
         ]
     ],

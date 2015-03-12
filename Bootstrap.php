@@ -1,5 +1,6 @@
 <?php
 /**
+ * author Grzegorz Pierzakowski
  * @link http://helgusoft.pl/
  * @copyright Copyright (c) 2015 helgusoft, Gdańsk
  *

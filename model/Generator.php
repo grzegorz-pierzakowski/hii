@@ -1,5 +1,6 @@
 <?php
 /**
+ * author Grzegorz Pierzakowski
  * @link http://helgusoft.pl/
  * @copyright Copyright (c) 2015 helgusoft, Gdańsk
  *
@@ -14,7 +15,7 @@ use yii\helpers\Inflector;
 use Yii;
 
 
-class Generator extends schmunk42\giiant\model\Generator
+class Generator extends \yii\gii\Generator
 {
     /**
      * @var array key-value pairs for mapping reltion patterns eg. 'column_name' => 'relationName'
@@ -62,7 +63,7 @@ class Generator extends schmunk42\giiant\model\Generator
             );
 
             $modelClassFile = Yii::getAlias('@' . str_replace('\\', '/', $this->ns)) . '/' . $className . '.php';
-            if ($this->generateModelClass || !is_file($modelClassFile)) {
+            if (!is_file($modelClassFile)) {
                 $files[] = new CodeFile(
                     $modelClassFile,
                     $this->render('model-extended.php', $params)
