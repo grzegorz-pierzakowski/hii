@@ -74,11 +74,15 @@ abstract class <?= $className ?> extends <?= '\\' . ltrim($generator->baseClass,
         <?= $relation[0] . "\n" ?>
     }
 <?php endforeach; ?>
-    <?php foreach ($tableSchema->columns as $column): ?>
-    <?php if ($column->name == 'name') :?>
-    
-    public static function byName($name)
+
+    <?php foreach (Yii::$app->db->createCommand("SHOW columns FROM $tableName")->queryAll() as $column): 
+        if ($column['Key'] == 'UNI') : ?>
+    /**
+    * @return static
+    */
+    <?php $name = \yii\helpers\Inflector::camel2id($column['Field'], '_');?>
+    public function findBy<?= ucfirst($name) ?>($<?= $name ?>)
     {
-        return static::findOne(['name' => $name]);
-    }<?php endif; endforeach; echo "\n"?>
+        return ststic::findOne(['<?= $column['Field'] ?>' => $<?= $name ?>]);
+    }<?php endif; endforeach; echo "\n" ?>
 }

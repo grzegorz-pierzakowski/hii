@@ -1,9 +1,6 @@
 hii
 ===========
 
-still at development stage
-
-
 Extended models for Gii, the code generator of Yii2 Framework
 
 
@@ -13,12 +10,13 @@ What is it?
 Hii provides automatic model generation for complex db models. 
 Supports:
 - many relations between two models
-- tbl2tbl tables names
+- 'name2other_name' db table names
 - cascade model structure: 
         models
-        |- base / model.php
+        |- base / model.php  <- this one has automaticly generated relations
         |- model.php
 - relation to self is possible only by setting it in customRelations
+- autogenerating static methods findBy{UniqieFields}
 
 Installation
 ------------

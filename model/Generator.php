@@ -11,7 +11,6 @@
 namespace grzegorzpierzakowski\hii\model;
 
 use \yii\gii\CodeFile;
-use yii\helpers\Inflector;
 use Yii;
 
 class Generator extends \yii\gii\generators\model\Generator
@@ -138,6 +137,7 @@ class Generator extends \yii\gii\generators\model\Generator
         $schemaName = ($pos = strpos($this->tableName, '.') !== false) ? substr($this->tableName, 0, $pos) : $schemaName = '';
 
         $relations = [];
+        print_r($db->getSchema()->getTableSchemas($schemaName)); exit;
         foreach ($db->getSchema()->getTableSchemas($schemaName) as $table) {
             $tableName = $table->name;
             $className = $this->generateClassName($tableName);
