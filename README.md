@@ -66,11 +66,8 @@ $config['params']['hii-model'] = [
         'ggroup' => 'Group'
     ]
 ]
-
-will generate 2 relations in User:
-
-
 ```
+
 Magic will happen and your models will have relations as below:
 
 ```
