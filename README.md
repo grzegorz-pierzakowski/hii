@@ -29,7 +29,7 @@ The preferred way to install this extension is through [composer](http://getcomp
 
     or you can add this into the composer.json:
 
-    "grzegorz-pierzakowski/hii": "1.0.0"
+    "grzegorz-pierzakowski/hii": "*"
 
 The Hii-model generator is registered automatically in the application bootstrap process, if the Gii module is enabled
 
