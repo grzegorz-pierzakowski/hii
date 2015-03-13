@@ -83,6 +83,6 @@ abstract class <?= $className ?> extends <?= '\\' . ltrim($generator->baseClass,
     <?php $name = \yii\helpers\Inflector::camel2id($column['Field'], '_');?>
     public function findBy<?= ucfirst($name) ?>($<?= $name ?>)
     {
-        return ststic::findOne(['<?= $column['Field'] ?>' => $<?= $name ?>]);
+        return static::findOne(['<?= $column['Field'] ?>' => $<?= $name ?>]);
     }<?php endif; endforeach; echo "\n" ?>
 }
