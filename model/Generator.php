@@ -1,6 +1,5 @@
 <?php
 /**
- * author Grzegorz Pierzakowski
  * @link http://helgusoft.pl/
  * @copyright Copyright (c) 2015 helgusoft, Gdańsk
  *
@@ -10,12 +9,12 @@
 
 namespace grzegorzpierzakowski\hii\model;
 
-use yii\gii\CodeFile;
-use yii\helpers\Inflector;
+use \yii\gii\CodeFile;
+use \yii\helpers\Inflector;
 use Yii;
 
 
-class Generator extends \yii\gii\Generator
+class Generator extends \yii\gii\generators\model\Generator
 {
     /**
      * @var array key-value pairs for mapping reltion patterns eg. 'column_name' => 'relationName'
@@ -32,6 +31,14 @@ class Generator extends \yii\gii\Generator
     public function getName()
     {
         return 'Hii Model';
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function requiredTemplates()
+    {
+        return ['model.php', 'base/model.php'];
     }
 
     /**
@@ -57,22 +64,19 @@ class Generator extends \yii\gii\Generator
                 'ns'          => $this->ns,
             ];
 
-            $files[] = new CodeFile(
-                Yii::getAlias('@' . str_replace('\\', '/', $this->ns)) . '/base/' . $className . '.php',
-                $this->render('model.php', $params)
-            );
-
-            $modelClassFile = Yii::getAlias('@' . str_replace('\\', '/', $this->ns)) . '/' . $className . '.php';
-            if (!is_file($modelClassFile)) {
-                $files[] = new CodeFile(
-                    $modelClassFile,
-                    $this->render('model-extended.php', $params)
-                );
-            }
+            foreach(['', 'base/'] as $file)
+                    $files[] = $this->generateFile($className, $params, $file);
         }
         return $files;
     }
 
+    private function generateFile($className, $params, $file)
+    {
+        return new CodeFile(
+                Yii::getAlias('@' . str_replace('\\', '/', $this->ns)) . "/$file$className.php",
+                $this->render($file . 'model.php', $params)
+            );
+    }
     /**
      * Generates a class name from the specified table name.
      *
@@ -113,15 +117,13 @@ class Generator extends \yii\gii\Generator
     
     private function calculateClassName($tableName)
     {
-        $className = id2camel($this->removePrefixes($tableName), '_');
+        $className = Inflector::id2camel($this->removePrefixes($tableName), '_');
         Yii::trace("Converted '{$tableName}' to '{$className}'.", __METHOD__);
         return $className;
     }
     
     private function removePrefixes($tableName)
     {
-        foreach ([$this->tablePrefix, $this->getDbConnection()->tablePrefix] as $prefix)
-            $tableName = preg_replace($prefix, '', $tableName);
-        return $tableName;
+        return ($regexp = $this->getDbConnection()->tablePrefix) ? preg_replace($regexp, '', $tableName) : $tableName;
     }
 }
