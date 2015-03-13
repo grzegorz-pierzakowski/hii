@@ -17,11 +17,6 @@ use Yii;
 class Generator extends \yii\gii\generators\model\Generator
 {
     /**
-     * @var array key-value pairs for mapping reltion patterns eg. 'column_name' => 'relationName'
-     */
-    public $customMap = [];
-
-    /**
      * @var array key-value pairs for mapping tableNames to modelNames
      */
     public $tableModelMap = [];
@@ -40,7 +35,13 @@ class Generator extends \yii\gii\generators\model\Generator
         return 'Hii Model';
     }
 
-    /**
+    public function init()
+    {
+        parent::init();
+        foreach (Yii::$app->params['hii-model'] as $key => $value)
+            $this->$key = $value;
+    }
+    /** 
      * @inheritdoc
      */
     public function requiredTemplates()
@@ -110,7 +111,7 @@ class Generator extends \yii\gii\generators\model\Generator
         return str_replace('__NS__', "\\{$this->ns}\\", $relation);
     }
 
-    private function takeNameFromArray($tablename)
+    private function takeNameFromArray($tableName)
     {
         Yii::trace("Converted '{$tableName}' from config->tableModelMap.", __METHOD__);
         return $this->tableModelMap[$tableName];
@@ -131,17 +132,10 @@ class Generator extends \yii\gii\generators\model\Generator
     
     protected function generateAdvancedRelations()
     {
-        if (!$this->generateRelations) {
-            return [];
-        }
-
+        if (!$this->generateRelations) return [];
         $db = $this->getDbConnection();
 
-        if (($pos = strpos($this->tableName, '.')) !== false) {
-            $schemaName = substr($this->tableName, 0, $pos);
-        } else {
-            $schemaName = '';
-        }
+        $schemaName = ($pos = strpos($this->tableName, '.') !== false) ? substr($this->tableName, 0, $pos) : $schemaName = '';
 
         $relations = [];
         foreach ($db->getSchema()->getTableSchemas($schemaName) as $table) {
@@ -152,11 +146,11 @@ class Generator extends \yii\gii\generators\model\Generator
                 unset($refs[0]);
                 $fks = array_keys($refs);
                 $refClassName = $this->generateClassName($refTable);
-
+                
                 // Add relation for this table
                 $link = $this->generateRelationLink(array_flip($refs));
                 $relationName = $this->generateRelationName($relations, $className, $table, $fks[0], false);
-                $relations[$className][$relationName] = [
+                if ($className != $refClassName) $relations[$className][$relationName] = [
                     "return \$this->hasOne($refClassName::className(), $link);",
                     $refClassName,
                     false,
@@ -175,8 +169,8 @@ class Generator extends \yii\gii\generators\model\Generator
                     }
                 }
                 $link = $this->generateRelationLink($refs);
-                $hPrefix = array_key_exists($fks[0], $this->customRelations) ? $this->customRelations[$fks[0]] : '';
-                $relationName = $hPrefix . $this->generateRelationName($relations, $refClassName, $refTable, $className, $hasMany);
+                $relationName =  $this->generateRelationName($relations, $refClassName, $refTable, $className, $hasMany);
+                $relationName .= array_key_exists($fks[0], $this->customRelations) ? $this->customRelations[$fks[0]] : '';
                 $relations[$refClassName][$relationName] = [
                     "return \$this->" . ($hasMany ? 'hasMany' : 'hasOne') . "($className::className(), $link);",
                     $className,

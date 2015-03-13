@@ -16,8 +16,9 @@ Supports:
 - tbl2tbl tables names
 - cascade model structure: 
         models
-        |-base/ model.php
-        |-model.php
+        |- base / model.php
+        |- model.php
+- relation to self is possible only by setting it in customRelations
 
 Installation
 ------------
@@ -53,15 +54,30 @@ $config['modules']['gii'] = [
     'class'      => 'yii\gii\Module',
     'allowedIPs' => ['127.0.0.1'],
     'generators' => [
-        'hii-model' => [
-            'class'     => 'grzegorzpierzakowski\hii\model\Generator',
-            // put your custom pairs 'table' => 'Model' map here
-            'tableModelMap' => [],
-            // pairs of column => RelationName that will be generated when found 
-            // if two tables have more than one relation
-            'customRelations' => []
-        ]
+        'hii-model' => ['class' => 'grzegorzpierzakowski\hii\model\Generator']
     ],
 ];
+
+$config['params']['hii-model'] = [
+            // put your custom pairs 'table' => 'ModelName' map here
+            'tableModelMap' => [],
+            // put your pairs 'column_name' => 'RelationSuffix' map here
+            // this allows to generate more than one relation between 2 models
+            'customRelations' => []
+]
+       
+```
+
+Sample usage:
+ MyModel = (id, user_id, last_user_id, ...) <-- 2 relations to User model here
+
+when putting
+    'customRelations' => [
+        'last_user_id' => 'Last'
+    ]
+will generate 2 relations in User:
+    User->myModel
+    User->myModelLast
+
 ```
 
