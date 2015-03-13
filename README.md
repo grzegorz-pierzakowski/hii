@@ -10,8 +10,14 @@ Extended models for Gii, the code generator of Yii2 Framework
 What is it?
 -----------
 
-Hii provides automatic model generation for complex db models. If there is more than one relation between two models than hii will help you to cope with it.
-The base table column name will be used to prepare the relation name. You may custom that by adding a customMap into the config.
+Hii provides automatic model generation for complex db models. 
+Supports:
+- many relations between two models
+- tbl2tbl tables names
+- cascade model structure: 
+        models
+        |-base/ model.php
+        |-model.php
 
 Installation
 ------------
@@ -51,8 +57,9 @@ $config['modules']['gii'] = [
             'class'     => 'grzegorzpierzakowski\hii\model\Generator',
             // put your custom pairs 'table' => 'Model' map here
             'tableModelMap' => [],
-            // put your pairs 'column_name' => 'RelationName' map here
-            'customMap' => []
+            // pairs of column => RelationName that will be generated when found 
+            // if two tables have more than one relation
+            'customRelations' => []
         ]
     ],
 ];
