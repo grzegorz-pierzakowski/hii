@@ -20,8 +20,6 @@ echo "<?php\n";
 
 namespace <?= $generator->ns ?>\base;
 
-use Yii;
-
 /**
  * This is the base-model class for table "<?= $tableName ?>".
  *
