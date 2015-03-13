@@ -150,6 +150,7 @@ class Generator extends \yii\gii\generators\model\Generator
                 // Add relation for this table
                 $link = $this->generateRelationLink(array_flip($refs));
                 $relationName = $this->generateRelationName($relations, $className, $table, $fks[0], false);
+                $relationName .= array_key_exists($fks[0], $this->customRelations) ? $refClassName : '';
                 if ($className != $refClassName) $relations[$className][$relationName] = [
                     "return \$this->hasOne($refClassName::className(), $link);",
                     $refClassName,
