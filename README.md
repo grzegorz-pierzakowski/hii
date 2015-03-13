@@ -12,9 +12,11 @@ Supports:
 - many relations between two models
 - 'name2other_name' db table names
 - cascade model structure: 
-        models
-        |- base / model.php  <- this one has automaticly generated relations
-        |- model.php
+```
+models
+|- base / model.php  <- this one has automaticly generated relations
+|- model.php
+```
 - relation to self is possible only by setting it in customRelations
 - autogenerating static methods findBy{UniqieFields}
 
