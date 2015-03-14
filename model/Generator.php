@@ -37,8 +37,9 @@ class Generator extends \yii\gii\generators\model\Generator
     public function init()
     {
         parent::init();
-        foreach (Yii::$app->params['hii-model'] as $key => $value)
-            $this->$key = $value;
+        if (isset(Yii::$app->params['hii-model']))
+            foreach (Yii::$app->params['hii-model'] as $key => $value)
+                $this->$key = $value;
     }
     /** 
      * @inheritdoc

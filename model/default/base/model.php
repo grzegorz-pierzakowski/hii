@@ -21,7 +21,7 @@ echo "<?php\n";
 namespace <?= $generator->ns ?>\base;
 
 /**
- * This is the base-model class for table "<?= $tableName ?>".
+ * This is the base/model class for table "<?= $tableName ?>".
  *
 <?php foreach ($tableSchema->columns as $column): ?>
  * @property <?= "{$column->phpType} \${$column->name}\n" ?>
