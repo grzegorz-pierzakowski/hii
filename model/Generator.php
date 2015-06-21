@@ -84,15 +84,15 @@ class Generator extends \yii\gii\generators\model\Generator
      *
      * @return string the generated class name
      */
-    protected function generateClassName($tableName)
+    protected function generateClassName($tableName, $useSchemaName = null)
     {
-        return isset($this->tableModelMap[$tableName]) ? $this->takeNameFromArray($tableName) : $this->generate2ClassNames($tableName);
+        return isset($this->tableModelMap[$tableName]) ? $this->takeNameFromArray($tableName) : $this->generate2ClassNames($tableName, $useSchemaName);
     }
 
-    protected function generate2ClassNames($tableName)
+    protected function generate2ClassNames($tableName, $useSchemaName = null)
     {
         $tableName = preg_replace('/2/','2_', $tableName);
-        return parent::generateClassName($tableName);
+        return parent::generateClassName($tableName, $useSchemaName);
     }
     protected function generateRelations()
     {
