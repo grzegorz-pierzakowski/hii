@@ -15,10 +15,12 @@
  * @var array $relations list of relations (name => relation declaration)
  */
 
-echo "<?php\n\nuse Yii;\n";
+echo "<?php\n";
 ?>
 
 namespace <?= $generator->ns ?>\base;
+
+use Yii;
 
 /**
  * This is the base/model class for table "<?= $tableName ?>".
