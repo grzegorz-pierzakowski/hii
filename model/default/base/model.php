@@ -15,7 +15,7 @@
  * @var array $relations list of relations (name => relation declaration)
  */
 
-echo "<?php\n";
+echo "<?php\n\nuse Yii;\n";
 ?>
 
 namespace <?= $generator->ns ?>\base;
