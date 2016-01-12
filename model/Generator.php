@@ -208,4 +208,26 @@ class Generator extends \yii\gii\generators\model\Generator
 
         return $relations;
     }
+
+    protected function checkPivotTable($table) {
+        $pk = $table->primaryKey;
+        if (count($pk) !== 2) {
+            return false;
+        }
+        $fks = [];
+        foreach ($table->foreignKeys as $refs) {
+            if (count($refs) === 2) {
+                if (isset($refs[$pk[0]])) {
+                    $fks[$pk[0]] = [$refs[0], $refs[$pk[0]]];
+                } elseif (isset($refs[$pk[1]])) {
+                    $fks[$pk[1]] = [$refs[0], $refs[$pk[1]]];
+                }
+            }
+        }
+        if (count($fks) === 2 && $fks[$pk[0]][0] !== $fks[$pk[1]][0]) {
+            return $fks;
+        } else {
+            return false;
+        }
+    }
 }
